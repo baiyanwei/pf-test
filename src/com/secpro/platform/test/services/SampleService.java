@@ -10,12 +10,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 //import com.secpro.platform.api.common.http.client.HttpClient;
 
+
 import com.secpro.platform.core.metrics.AbstractMetricMBean;
 import com.secpro.platform.core.metrics.Metric;
 import com.secpro.platform.core.metrics.MetricUtils;
 import com.secpro.platform.core.services.IService;
 import com.secpro.platform.core.services.ServiceInfo;
 import com.secpro.platform.log.utils.PlatformLogger;
+import com.secpro.platform.api.client.ClientConfiguration;
 import com.secpro.platform.api.common.http.client.HttpClient;
 
 @ServiceInfo(description = "sample Service", configurationPath = "application/services/sampleService/")
@@ -50,7 +52,7 @@ public class SampleService extends AbstractMetricMBean implements IService {
 		System.out.println(">>>>>>>>>>>>>>" + stringDataList);
 		System.out.println(">>>>>>>>>>>>>>" + cfgBeanList);
 		System.out.println("<>>>>>>>>>>>>>>>>bean:" + bean);
-		//testClient();
+		// testClient();
 	}
 
 	@Override
@@ -66,14 +68,18 @@ public class SampleService extends AbstractMetricMBean implements IService {
 
 	public void testClient() {
 		try {
-			final URI uri = new URI("http://localhost:8888/?sdsf=322");
+			final ClientConfiguration clientCfg = new ClientConfiguration();
+			clientCfg._endPointURI = "http://localhost:8888/?sdsf=322";
+			clientCfg._endPointPort = 8080;
 			for (int i = 0; i < 10; i++) {
 				try {
 					new Thread() {
 						public void run() {
 							try {
 								this.sleep(10000);
-								new HttpClient(uri, null, new HashMap<String, String>()).start();
+								HttpClient httpClient = new HttpClient();
+								httpClient.configure(clientCfg);
+								httpClient.start();
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
