@@ -1,8 +1,6 @@
 package com.secpro.platform.test.services;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -69,7 +67,7 @@ public class SampleService extends AbstractMetricMBean implements IService {
 	public void testClient() {
 		try {
 			final ClientConfiguration clientCfg = new ClientConfiguration();
-			clientCfg._endPointURI = "http://localhost:8888/?sdsf=322";
+			clientCfg._endPointHost = "http://localhost:8888/?sdsf=322";
 			clientCfg._endPointPort = 8080;
 			for (int i = 0; i < 10; i++) {
 				try {
